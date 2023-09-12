@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Barriecito&family=Geologica&family=Hind+Siliguri:wght@300&family=Merriweather:ital,wght@0,300;1,700&family=Monoton&family=Nunito+Sans:wght@700&family=PT+Sans:ital,wght@1,700&family=Roboto+Slab:wght@300&family=Roboto:wght@300&family=Rubik:ital,wght@0,300;1,400&display=swap');
+        body{
+            background-image: url("https://www.thisiscolossal.com/wp-content/uploads/2019/09/farrell-4.gif");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            font-family: 'Barriecito', cursive;
+font-family: 'Geologica', sans-serif;
+font-family: 'Hind Siliguri', sans-serif;
+font-family: 'Merriweather', serif;
+font-family: 'Monoton', cursive;
+font-family: 'Nunito Sans', sans-serif;
+font-family: 'PT Sans', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Roboto Slab', serif;
+font-family: 'Rubik', sans-serif;
+
+        }
+        .card{
+            width: 400px;
+           background-image: url("https://st4.depositphotos.com/3930503/19991/i/450/depositphotos_199910082-stock-photo-light-blue-gradient-background-blue.jpg" );
+           background-repeat: no-repeat;
+           background-position: center;
+           background-size: cover;
+            margin:80px auto;
+            border-radius: 10px;
+        }
+        .searchbox{
+            margin: 1px 30px;
+            padding: 15px 1px;
+        }
+        .searchbox input{
+            width: 230px;
+            height: 30px;
+            outline: none;
+            border:  1px solid gainsboro;
+            padding: 5px;
+            border-radius: 5px;
+            color: black;
+            font-size: 19px;
+        }
+        button{
+            height: 38px;
+            width: 90px;
+            border-radius: 5px;
+            outline: none;
+            border:  1px solid gray;
+        }
+        .weatcher{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+        }
+        .temp{
+            font-size: 40px;
+            margin-top: -7px;
+        }
+        .city{
+            font-size: 30px;
+            margin-top: -10px;
+            letter-spacing: 1px;
+        }
+        .row{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .col p{
+            font-size: 20px;
+            font-weight: 600;
+            text-align: left;
+            margin-top: -10px;
+        }
+        .col img{
+           
+            margin-top: 20px;
+            padding: 10px;
+        }
+        .col{
+            align-items: center;
+            justify-content: center;
+        }
+       
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="searchbox">
+            <input type="text" placeholder=" City">
+            <button>Search</button>
+        </div>
+        <div class="weatcher">
+            <img src="clear.png" width="150px">
+            <h1  class="temp"> 32 °C</h1>           
+             <h2 class="city">Chennai</h2>
+            
+        </div>
+        <div class="row">
+            <div class="col">
+                <img src="https://www.freeiconspng.com/thumbs/temperature-icon-png/temperature-icon-png-18.png" width="40px">
+                <p class="Humidity">45 °C</p>
+                <p>Humidity</p>
+            </div>
+
+            <div class="col">
+                <img src="https://toppng.com//public/uploads/preview/computer-icons-weather-wind-rain-windy-weather-icon-11553394233bil1pfsjcf.png" width="40px">
+                <p class="Winds">12 km/h</p>
+                <p>Winds</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+   const  apikey = "dc3d27e91bc98eb7e1f2ba84b990df68 ";
+   const apiurl = "https://api.openweathermap.org/data/2.5/weather?unite=metric&q=";
+   const searchbox = document.querySelector(".searchbox input");
+   const searchbtn = document.querySelector(".searchbox button");
+   const card = document.querySelector("card");
+   const img = document.querySelector(".weatcher img")
+   async function weather(city){
+      const respons = await fetch(apiurl+ city +`&appid=${apikey}`)
+      var data =  await respons.json()
+     console.log(data)
+
+     document.querySelector(".city").innerHTML = data.name;
+     document.querySelector(".temp").innerHTML =  Math.round(data.main.temp )+ "°C";
+     document.querySelector(".Humidity").innerHTML = data.main.humidity + "%";
+     document.querySelector(".Winds").innerHTML = data.wind.speed  + " km/h";
+
+     if(data.weather[0].main == "Clouds"){
+              img.src="clouds.png";
+             
+
+            }
+             else if(data.weather[0].main == "Clear"){
+                img.src="clear.png";
+             }
+             else if(data.weather[0].main == "Rain"){
+                img.src="rain.png";
+                
+             }
+             else if(data.weather[0].main == "Drizzle"){
+                img.src="drizzle.png";
+                
+             }
+             else if(data.weather[0].main == "Mist"){
+                img.src="mist.png";
+                
+             }
+      }
+   searchbtn.addEventListener('click', ()=>{
+        weather(searchbox.value)
+        
+    });
+   
+
+
+    </script>
+    
+</body>
+</html>
